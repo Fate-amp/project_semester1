@@ -3,7 +3,7 @@ import pandas as pd
 
 # enter your localhost information to connect to the database
 username = "root"
-password = "admin"
+password = "F.a0480795444"
 host = "127.0.0.1"
 port = 3306
 database_name = "cosmetics_shop"

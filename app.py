@@ -8,6 +8,13 @@ app = Flask(__name__)
 def index():
     return render_template("base.html")
 
+@app.route("/products")
+def get_products_page():
+    return render_template("products.html")
+
+@app.route("/dashboard")
+def get_dashboard_page():
+    return render_template("dashboard.html")
 
 # example on how to easily get data from the database
 connection = query.get_connection()
