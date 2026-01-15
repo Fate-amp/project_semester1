@@ -1,21 +1,18 @@
 from sqlalchemy import URL, create_engine, text
 import pandas as pd
+import tomllib
 
-# enter your localhost information to connect to the database
-username = "root"
-password = "F.a0480795444"
-host = "127.0.0.1"
-port = 3306
-database_name = "cosmetics_shop"
-
+# get server configuration from config.toml and load it
+with open("config.toml", "rb") as f:
+    serv = tomllib.load(f)
 
 url_object = URL.create(
-    drivername="mysql+pymysql",
-    username=username,
-    password=password,
-    host=host,
-    port=port,
-    database=database_name,
+    drivername=serv["drivername"],
+    username=serv["username"],
+    password=serv["password"],
+    host=serv["host"],
+    port=serv["port"],
+    database=serv["database_name"],
 )
 
 
