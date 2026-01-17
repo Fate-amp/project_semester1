@@ -3,10 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Dashboard</h1>
+
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var prices_list = {{ prices|safe }};
+        var ratings_list = {{ ratings|safe }};
+
+        const ctx = document.getElementById('myChart');
+        let length = [];
+        for (let a = 0; a < prices_list.length; a++) {
+            length.push(a);
+        }
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+            labels: length,
+            datasets: [{
+                label: 'Price',
+                data: prices_list,
+                borderWidth: 1
+            }]
+            }
+        });
+
+    </script>
 </body>
 </html>

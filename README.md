@@ -8,22 +8,24 @@ pip installed
 
 2. Setup
 
-**Step1:**
+**Step 1:**
 Clone the repository:
 `git clone 'https://github.com/Fate-amp/project_semester1.git'`
 
-**Step2: create the virtual environment**
+**Step 2: create the virtual environment**
 `python -m pip install virtualenv env`
 `python -m virtualenv env`
 
-**Step3: Activate the envirnoment**
+**Step 3: Activate the envirnoment**
 - For Windows:
 `.\env\Scripts\Activate.ps1`
+Troubleshooting: in case you run into "cannot be loaded because the execution of scripts is disabled on this system" issue, run `Set-ExecutionPolicy Unrestricted -Scope Process`
+
 - For Mac/Linux:
 `source env/bin/activate`
 
-**Step4: Install the required packages from requirements.txt**
+**Step 4: Install the required packages from requirements.txt**
 `pip install -r requirements.txt`
 
-**Step5: Run the flask app to see a demo of the project**
+**Step 5: Run the flask app to see a demo of the project**
 `flask run`

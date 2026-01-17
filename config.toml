@@ -6,3 +6,5 @@ password = "admin"
 host = "127.0.0.1"
 port = 3306
 database_name = "cosmetics_shop"
+
+table = "dataset"
