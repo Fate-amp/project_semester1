@@ -1,0 +1,24 @@
+{
+  "name": "project_semester1",
+  "version": "1.0.0",
+  "description": "Simple website connected to MySQL server with database search and a dashboard. Implemented using Flask, Chart.js and SQLAlchemy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fate-amp/project_semester1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Fate-amp/project_semester1/issues"
+  },
+  "homepage": "https://github.com/Fate-amp/project_semester1#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}

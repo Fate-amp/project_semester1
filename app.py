@@ -3,6 +3,13 @@ import query
 
 app = Flask(__name__)
 
+# The following lines are there so that flask reboots after
+# frontend updates. To be deleted on production! Maya
+if __name__ == "__main__":
+    app.run(debug=True)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.jinja_env.auto_reload = True
+
 # create sqlalchemy connection object for later use
 connection = query.get_connection()
 
@@ -14,7 +21,8 @@ def index():
 
 @app.route("/products")
 def get_products_page():
-    return render_template("products.html")
+    products=query.get_all_unique_products(connection)
+    return render_template("products.html",products=products)
 
 
 @app.route("/dashboard")

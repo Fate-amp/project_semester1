@@ -27,5 +27,8 @@ Troubleshooting: in case you run into "cannot be loaded because the execution of
 **Step 4: Install the required packages from requirements.txt**
 `pip install -r requirements.txt`
 
-**Step 5: Run the flask app to see a demo of the project**
+**Step5: Install JavaScript packages based on package-lock.json**
+`npm i`
+
+**Step 6: Run the flask app to see a demo of the project**
 `flask run`
