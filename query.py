@@ -1,5 +1,4 @@
 from sqlalchemy import URL, create_engine, text
-import pandas as pd
 import tomllib
 
 # get server configuration from config.toml and load it
@@ -14,19 +13,38 @@ url_object = URL.create(
     port=serv["port"],
     database=serv["database_name"],
 )
+table = serv["table"]
 
 
-# return connection object
 def get_connection(url_object=url_object):
+    """Create an _engine.Connection object for interaction
+    with database specified in config.toml"""
     engine = create_engine(url_object)
     connection = engine.connect()
     return connection
 
 
-# return DataFrame object of the query
-def get_query(connection, query):
-    result = connection.execute(text(f"{query}"))
-    return pd.DataFrame(result)
+def column_values(connection, columns):
+    """
+    Return a list where each element is a list,
+    consisting of all values from a table's column
 
+    :param engine: SQLAlchemy _engine.Engine object
+    :param query: Space separated string of columns
+    you want to get the values from
+    """
+    result = []
+    for column in columns.split(" "):
+        column_values = connection.execute(text(f"select {column} from {table}"))
+        result.append(column_values.scalars().all())
+    return result
 
-# TODO function to return pandas datadrame based on CursorResult object
+# Edit later:
+# To get all unique products
+def get_all_unique_products(connection):
+    sql = f"""
+    SELECT *
+    FROM {table}
+    """
+    result=connection.execute(text(sql))
+    return result.mappings().all()
