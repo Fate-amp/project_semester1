@@ -38,3 +38,13 @@ def column_values(connection, columns):
         column_values = connection.execute(text(f"select {column} from {table}"))
         result.append(column_values.scalars().all())
     return result
+
+# Edit later:
+# To get all unique products
+def get_all_unique_products(connection):
+    sql = f"""
+    SELECT *
+    FROM {table}
+    """
+    result=connection.execute(text(sql))
+    return result.mappings().all()
