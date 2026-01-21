@@ -1,10 +1,10 @@
 # Your MySQL server information
 
 drivername="mysql+pymysql"
-username = "root"
-password = "admin"
-host = "127.0.0.1"
+username = "admin"
+password = "rootpass11"
+host = "semester-1-project.c3quok406kii.eu-north-1.rds.amazonaws.com"
 port = 3306
-database_name = "cosmetics_shop"
+database_name = "cosmetics_db"
 
-table = "dataset"
+table = "cosmetics"
