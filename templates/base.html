@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Homepage</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='output.css') }}"
+    />
 </head>
 <body>
-    <h1>The main page</h1>
+    <div class="min-h-screen flex flex-col">
+        {% include "components/header.html" %}
+
+        <main class="flex flex-col">
+            <div>{% include "components/hero.html" %}</div>
+            <div>{% include "components/transparency.html" %}</div>
+            <div>{% include "components/featured.html" %}</div>
+            <div>{% include "components/inclusivity_banner.html" %}</div>
+        </main>
+
+        {% include "components/footer.html" %}
+    </div>
 </body>
 </html>

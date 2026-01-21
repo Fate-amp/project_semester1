@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -10,12 +10,23 @@
     />
   </head>
   <body>
-    <div
-      class="h-40 w-full bg-background flex items-center"
-    >
-      <p class="text-4xl">Our Products</p>
+    {% include "components/header.html" %}
+    <div class="min-h-screen flex flex-col">
+      <section class="py-12 md:py-16 bg-stone-50 px-20">
+        <div class="container-custom">
+          <h1 class="text-3xl md:text-4xl font-serif font-semibold">
+            Our Products
+          </h1>
+          <p class="mt-2 max-w-xl">
+            Explore our collection of clean, transparent beauty products crafted
+            for every skin.
+          </p>
+        </div>
+      </section>
+      <section class="flex flex-row flex-wrap px-20 justify-between py-6">
+        {%for product in products%} {% include "components/product_card.html" %} {%
+        endfor %}
+      </section>
     </div>
-    <!-- {%for product in products%} {% include "components/product_card.html" %} {%
-    endfor %} -->
   </body>
 </html>
