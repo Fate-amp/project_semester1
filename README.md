@@ -28,7 +28,10 @@ Troubleshooting: in case you run into "cannot be loaded because the execution of
 `pip install -r requirements.txt`
 
 **Step5: Install JavaScript packages based on package-lock.json**
-`npm i`
+`npm i` (if you don't have node.js or npm, install them first)
 
-**Step 6: Run the flask app to see a demo of the project**
+**Step6: Change config.toml**
+Input your database information
+
+**Step 7: Run the flask app to see a demo of the project**
 `flask run`
