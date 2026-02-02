@@ -1,11 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    Transparency Section
-</body>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  </head>
+  <body>
+    {% set pillars = [ { "icon": "eye", "title": "Full Transparency",
+    "description": "Every ingredient listed, explained, and sourced. Know
+    exactly what goes on your skin." }, { "icon": "leaf", "title": "Clean
+    Formulas", "description": "Traditional wisdom meets modern science. No
+    harmful chemicals, ever." }, { "icon": "users", "title": "Inclusive by
+    Design", "description": "Formulated and tested for all skin tones. Beauty
+    that works for everyone." }, { "icon": "sparkles", "title":
+    "Science-Backed", "description": "Clinically tested ingredients that deliver
+    real, visible results." } ] %}
+    <section class="py-16 md:py-24 bg-stone-50 px-20">
+      <div class="container mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <h2
+            class="text-3xl md:text-4xl font-serif font-semibold text-stone-900"
+          >
+            Our Promise to You
+          </h2>
+          <p class="mt-4 text-stone-600">
+            Transparency isn't a trend—it's our foundation. Here's what sets us
+            apart.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {% for pillar in pillars %}
+          <div
+            class="group p-6 rounded-xl bg-white border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+          >
+            <div
+              class="w-12 h-12 rounded-lg bg-amber-700/20 flex items-center justify-center mb-4 group-hover:bg-amber-700/40 transition-colors text-2xl"
+            >
+              {% if pillar.icon == "eye" %}
+              <i class="ph ph-eye text-amber-700"></i>
+              {% elif pillar.icon == "leaf" %}
+              <i class="ph ph-leaf text-amber-700"></i>
+              {% elif pillar.icon == "users" %}
+              <i class="ph ph-users text-amber-700"></i>
+              {% elif pillar.icon == "sparkles" %}
+              <i class="ph ph-sparkle text-amber-700"></i>
+              {% endif %}
+            </div>
+            <h3 class="text-lg font-serif font-semibold text-stone-900 mb-2">
+              {{ pillar.title }}
+            </h3>
+            <p class="text-sm text-stone-600 leading-relaxed">
+              {{ pillar.description }}
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

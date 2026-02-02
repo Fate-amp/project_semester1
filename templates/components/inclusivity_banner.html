@@ -1,11 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    Inclusivity Banner
-</body>
+  </head>
+  <body>
+    {% set shade_colors = [ "bg-amber-200", "bg-amber-400", "bg-amber-600",
+    "bg-amber-800", "bg-amber-900" ] %}
+
+    <section class="py-16 md:py-24 bg-stone-900 text-stone-50 px-20">
+      <div class="container mx-auto">
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2
+              class="text-3xl md:text-4xl font-serif font-semibold leading-tight"
+            >
+              Beauty for
+              <span class="text-amber-700"> every skin tone</span>
+            </h2>
+            <p class="mt-4 text-stone-300 leading-relaxed">
+              We believe beauty products should work for everyone. Our
+              foundation line comes in 40 shades, meticulously formulated to
+              complement the full spectrum of skin tones. Every product is
+              tested on diverse skin types to ensure universal performance.
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3">
+              <div class="flex -space-x-3">
+                {% for color in shade_colors %}
+                <div
+                  class="w-10 h-10 rounded-full {{ color }} border-2 border-stone-900"
+                ></div>
+                {% endfor %}
+              </div>
+              <span class="flex items-center text-sm text-stone-400 ml-2">
+                40+ shades available
+              </span>
+            </div>
+            <a
+              href="{{ url_for('get_products_page') }}"
+              class="mt-8 inline-block bg-stone-50 text-stone-900 hover:bg-stone-200 px-6 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Find Your Shade
+            </a>
+          </div>
+          <div class="relative">
+            <div class="aspect-square rounded-2xl bg-stone-800 overflow-hidden">
+              <img
+                src="{{ url_for('static', filename='images/inclusivity.png') }}"
+                alt="Diverse models showcasing foundation shades"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div
+              class="absolute -bottom-4 -left-4 w-24 h-24 bg-amber-700/80 rounded-xl"
+            ></div>
+            <div
+              class="absolute -top-4 -right-4 w-16 h-16 bg-green-200/80 rounded-lg"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
 </html>

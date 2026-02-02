@@ -6,6 +6,114 @@
     <title>Document</title>
 </head>
 <body>
-    Footer
+    {% set footer_links = {
+  "shop": [
+    {"name": "All Products", "href": url_for('get_products_page')},
+    {"name": "Skincare", "href": url_for('get_products_page')},
+    {"name": "Makeup", "href": url_for('get_products_page')},
+    {"name": "Hair Care", "href": url_for('get_products_page')}
+  ],
+  "about": [
+    {"name": "Our Story", "href": "#"},
+    {"name": "Ingredients", "href": "#"},
+    {"name": "Sustainability", "href": "#"},
+    {"name": "Press", "href": "#"}
+  ],
+  "support": [
+    {"name": "Contact Us", "href": "#"},
+    {"name": "FAQs", "href": "#"},
+    {"name": "Shipping", "href": "#"},
+    {"name": "Returns", "href": "#"}
+  ]
+} %}
+
+<footer class="border-t border-stone-200 bg-stone-50 px-20">
+  <div class="container mx-auto py-12 md:py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1">
+        <a href="{{ url_for('index') }}" class="inline-block">
+          <span class="font-serif text-2xl font-semibold tracking-tight text-stone-900">
+            Lumière
+          </span>
+        </a>
+        <p class="mt-4 text-sm text-stone-600 leading-relaxed">
+          Clean beauty, transparent ingredients. Made for every skin tone.
+        </p>
+      </div>
+
+      <!-- Shop -->
+      <div>
+        <h3 class="font-medium text-stone-900 mb-4">Shop</h3>
+        <ul class="space-y-3">
+          {% for link in footer_links.shop %}
+          <li>
+            <a
+              href="{{ link.href }}"
+              class="text-sm text-stone-600 hover:text-amber-600 transition-colors"
+            >
+              {{ link.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- About -->
+      <div>
+        <h3 class="font-medium text-stone-900 mb-4">About</h3>
+        <ul class="space-y-3">
+          {% for link in footer_links.about %}
+          <li>
+            <a
+              href="{{ link.href }}"
+              class="text-sm text-stone-600 hover:text-amber-600 transition-colors"
+            >
+              {{ link.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div>
+        <h3 class="font-medium text-stone-900 mb-4">Support</h3>
+        <ul class="space-y-3">
+          {% for link in footer_links.support %}
+          <li>
+            <a
+              href="{{ link.href }}"
+              class="text-sm text-stone-600 hover:text-amber-600 transition-colors"
+            >
+              {{ link.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-stone-200 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-sm text-stone-600">
+        © 2026 Lumière Beauty. All rights reserved.
+      </p>
+      <div class="flex items-center gap-6">
+        <a
+          href="#"
+          class="text-sm text-stone-600 hover:text-amber-600 transition-colors"
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="#"
+          class="text-sm text-stone-600 hover:text-amber-600 transition-colors"
+        >
+          Terms of Service
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

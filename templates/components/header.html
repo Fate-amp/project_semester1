@@ -7,14 +7,14 @@
   </head>
   <body>
     <header
-      class="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+      class="sticky top-0 z-50 w-full border-b border-stone-200 bg-white/80 backdrop-blur-md"
     >
-      <div class="container-custom px-4 mx-auto">
+      <div class="container mx-auto px-4">
         <div class="flex h-16 items-center gap-16">
           <div class="w-1/3">
               <a href="{{ url_for('index') }}" class="flex items-center gap-2">
                 <span
-                  class="font-serif text-2xl font-semibold tracking-tight text-foreground"
+                  class="font-serif text-2xl font-semibold tracking-tight text-stone-900"
                 >
                   Lumière
                 </span>
@@ -30,7 +30,7 @@
                 {% for link in nav_links %}
               <a
                 href="{{ url_for(link.endpoint) }}"
-                class="text-sm font-medium mx-4 hover:text-amber-700 transition-all duration-300 hover:text-primary {% if request.endpoint == link.endpoint %}text-primary{% else %}text-muted-foreground{% endif %}"
+                class="text-sm font-medium mx-4 hover:text-amber-700 transition-all duration-300 {% if request.endpoint == link.endpoint %}text-stone-900 font-semibold{% else %}text-stone-600{% endif %}"
               >
                 {{ link.name }}
               </a>
