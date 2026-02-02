@@ -26,18 +26,38 @@ def get_connection(url_object=url_object):
 
 def column_values(connection, columns):
     """
+    list of column names (strings) -> list of lists of values of given columns
     Return a list where each element is a list,
-    consisting of all values from a table's column
+    consisting of all values from a table's column 
+    (defined either by table column's name or a query).
 
-    :param engine: SQLAlchemy _engine.Engine object
-    :param query: Space separated string of columns
-    you want to get the values from
+    :param connection: SQLAlchemy _engine.Connection object
+    :param columns: List of columns (strings)
+    you want to get the values from. Alternatively
+    columns can be a list of queries to be pasted into
+    "select {column} from {table}" template. Can be useful
+    to fetch multiple lists of values at once.
     """
     result = []
-    for column in columns.split(" "):
+    for column in columns:
         column_values = connection.execute(text(f"select {column} from {table}"))
         result.append(column_values.scalars().all())
     return result
+
+def just_execute(connection, query):
+    '''
+    query string -> list of lists of columns of output table
+    General purpose function for executing queries and returning lists with column values.
+    In your query string use should use _table_ keyword if you want this
+    function to automatically replace it with table name provided in config.toml
+    
+    :param connection: SQLAlchemy _engine.Connection object
+    :param query: string with SQL query
+    '''
+    query = query.replace("_table_", table)
+    cursor = connection.execute(text(query))
+    rows = cursor.all() #function works with any amount of columns in the output table
+    return list(map(list, zip(*rows))) 
 
 # Edit later:
 # To get all unique products
@@ -46,5 +66,5 @@ def get_all_unique_products(connection):
     SELECT *
     FROM {table}
     """
-    result=connection.execute(text(sql))
+    result = connection.execute(text(sql))
     return result.mappings().all()

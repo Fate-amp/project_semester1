@@ -8,12 +8,12 @@
 <body>
     <div class="w-[23%] h-[400px] flex flex-col border mb-6 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
         <div class="h-2/3 bg-amber-100 w-full">
-            <img src={{product.title_href}} alt={{product.category}} class="w-full h-full object-cover"/>
+            <img src={{product.image_url}} alt={{product.category}} class="w-full h-full object-cover"/>
         </div>
         <div class="flex-grow p-3 flex flex-col justify-between">
             <p class="text-stone-500">{{product.subcategory.upper()}}</p>
             <p>{{ product.product_name }}</p>
-            <p class="font-bold">${{ product.price }}</p>
+            <p class="font-bold">₹{{ product.price }}</p>
         </div>
     </div>
 </body>
