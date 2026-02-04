@@ -20,8 +20,26 @@ def get_products_page():
 
 @app.route("/dashboard")
 def get_dashboard_page():
-    result = query.column_values(connection, ["price", "rating"])
-    return render_template("dashboard.html", prices=result[0], ratings=result[1])
+    # values for price ranges histogram
+    ranges = ["10 - 500", "500 - 2500", "2500 - 10000", "10000+"]
+    dash_price_ranges = dq.price_hist(connection, [[10,500], [500,2500], [2500, 10000], [10000]])
+
+    # values for rating by brand chart
+    brands_ratings = dq.rating_by_brand(connection)
+    dash_rating_brands, dash_rating_scores = brands_ratings[0], brands_ratings[1]
+
+    # values for good reviews ratio per country
+    review_ratios = dq.reviews_by_country(connection, 3.5)
+    dash_ratio_countries, dash_ratio_ratios = review_ratios[0], review_ratios[1]
+
+    # values for best brands statistics
+    dash_best_brands = dq.best_brands(dash_rating_brands, dash_rating_scores, 5)
+
+    # values for statistics by country
+    india_stats = dq.country_stats(connection, "India", 5)
+    usa_stats = dq.country_stats(connection, "USA", 5)
+    
+    return render_template("dashboard.html")
 
 # The following lines are there so that flask reboots after
 # frontend updates. To be deleted on production! Maya
