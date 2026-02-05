@@ -27,8 +27,12 @@ Troubleshooting: in case you run into "cannot be loaded because the execution of
 **Step 4: Install the required packages from requirements.txt**
 `pip install -r requirements.txt`
 
-**Step5: Install JavaScript packages based on package-lock.json**
-`npm i`
+**Step 5: Install JavaScript packages based on package-lock.json**
+`npm i` (if you don't have node.js or npm, install them first)
 
-**Step 6: Run the flask app to see a demo of the project**
+**Step 6: Change config.toml**
+Input your database information
+(The app is based around modified database `https://www.kaggle.com/datasets/devi5723/e-commerce-cosmetics-dataset`)
+
+**Step 7: Run the flask app to see a demo of the project**
 `flask run`
