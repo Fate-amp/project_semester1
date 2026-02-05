@@ -24,6 +24,7 @@ def list_to_float(li):
     '''
     for i in range(len(li)):
         li[i] = float(li[i])
+    return li
 
 
 # following functions can be used to pass data to chart.js
@@ -51,6 +52,7 @@ def price_hist(connection, pr_ranges):
     prices = query.column_values(connection, columns)
     return [price[0] for price in prices] #column_values returns a list of lists, while we want a list of integers here
 
+
 def rating_by_brand(connection):
     '''
     Return a list with the 1st element being a list of all brands and the 2nd being a list of their corresponding scores 
@@ -65,8 +67,9 @@ def rating_by_brand(connection):
     :param connection: _engine.Connection object
     '''
 
-    res = query.just_execute(connection, "select brand, round(avg(rating) * log(sum(noofratings)+1),2) as score from _table_ where rating >= 1 and rating <= 5 and noofratings is not null group by replace(lower(brand), ' ', '') order by brand asc")
+    res = query.just_execute(connection, "select brand, round(avg(rating) * log(sum(noofratings)+1)) as score from _table_ where rating >= 1 and rating <= 5 and noofratings is not null group by replace(lower(brand), ' ', '') order by score asc")
     return res
+
     
 def reviews_by_country(connection, floor):
     '''
@@ -84,11 +87,15 @@ def reviews_by_country(connection, floor):
   
     return [countries, list_to_float(ratios)]
 
+
 # following functions provide general statistics to be displayed on dashboard
 
 def best_brands(brands, scores, n):
     '''
-    Output best n amount of brands, based on their scores
+    Return best n amount of brands, based on their scores.
+    Output data structure is a list of tuples where each tuple
+    is a pair of brand and it's corresponsing rating. The list is sorted
+    by ratings descending
     
     :param brands: list of brands
     :param scores: list of scores
@@ -97,26 +104,35 @@ def best_brands(brands, scores, n):
     top_brands = [(brand, score) for brand, score in sorted(zip(brands, scores), key = lambda pair: pair[1], reverse=True)] # sort by rating
     return top_brands[:n]
 
+
+def country_list(connection):
+    '''
+    Return unique countries from dataset
+    
+    :param connection: _engine.Connection object
+    '''
+    countries = query.just_execute(connection, "select distinct country from _table_")
+    return countries[0] # just_execute returns a nested list
+
+
 def country_stats(connection, country, n):
     '''
-    Return most popular brands and categories (by number of ratings) and number of products in a given country.
+    Return most popular brands and subcategories (by number of ratings) and number of products in a given country.
     n restricts the amount of output values (except for number of products which is always one)
 
     Example:
     result = country_stats(connection, "India", 5)
 
-    brands, review_count = result[0]
-
-    subcategories, subcategory_count = result[1]
-
-    products_count = result[2]
+    top_brands_india = result[0] # list of strings
+    top_categories_india = result[1] # list of integers
+    product_count_india = result[2] # integer
     
     :param connection: _engine.Connection object
     :param country: choose a country out of country table to fetch statistics for
     '''
 
-    brands, review_count = query.just_execute(connection, f"select brand, sum(noofratings) from _table_ where country = '{country}' group by replace(lower(brand), ' ', '') order by sum(noofratings) desc limit {n}")    
-    subcategories, subcategory_count = query.just_execute(connection, f"select subcategory, count(subcategory) from _table_ where country = '{country}' group by replace(lower(subcategory), ' ', '') order by count(subcategory) desc limit {n}")
+    brands = query.just_execute(connection, f"select brand from _table_ where country = '{country}' group by replace(lower(brand), ' ', '') order by sum(noofratings) desc limit {n}")    
+    subcategories = query.just_execute(connection, f"select subcategory from _table_ where country = '{country}' group by replace(lower(subcategory), ' ', '') order by count(subcategory) desc limit {n}")
     products_count = query.just_execute(connection, f"select count(distinct product_name) from _table_ where country = '{country}'")
 
-    return [[brands, list_to_float(review_count)], [subcategories, subcategory_count], products_count[0]]
+    return brands + subcategories + products_count[0]
