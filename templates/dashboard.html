@@ -4,12 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Import Tailwind and Chart.js -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='output.css') }}"
+    />
+    <script src="{{ url_for('static', filename='chartjs/chart.umd.js') }}"></script>
+
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <!-- Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200">
+    <!-- Navigation and Header -->
+    {% include "components/header.html" %}
+    <header class="bg-stone-50 shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <h1 class="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
             <p class="mt-1 text-sm text-gray-500">Product insights and performance metrics</p>
@@ -372,5 +378,7 @@
             }
         });
     </script>
+    <!-- Footer -->
+    {% include "components/footer.html" %}
 </body>
 </html>

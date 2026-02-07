@@ -21,5 +21,8 @@
   "homepage": "https://github.com/Fate-amp/project_semester1#readme",
   "devDependencies": {
     "tailwindcss": "^3.4.19"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.1"
   }
 }
