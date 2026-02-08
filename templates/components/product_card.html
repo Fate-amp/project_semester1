@@ -6,14 +6,22 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="w-[23%] h-[400px] flex flex-col border mb-6 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
-        <div class="h-2/3 bg-amber-100 w-full">
-            <img src={{product.image_url}} alt={{product.category}} class="w-full h-full object-contain"/>
+    <div class="w-[23%] h-[450px] flex flex-col border mb-6 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+        <div class="h-[60%] w-full">
+            {% if product.image_url is not none %}
+            <img src={{product.image_url}} alt={{product.category}} class="w-full h-full object-contain hover:scale-105 hover:z-10 transition-all duration-300"/>
+            {% else %}
+            <img src="/static/images/hero-beauty.png" alt={{product.category}} class="w-full h-full object-contain hover:scale-105 transition-all duration-300"/>
+            {% endif %}
         </div>
-        <div class="flex-grow p-3 flex flex-col justify-between">
+        <div class="flex-grow p-4 flex flex-col justify-between">
             <p class="text-stone-500">{{product.subcategory.upper()}}</p>
             <p class="line-clamp-2 break-words">{{ product.product_name }}</p>
+            {%if product.price >1 %}
             <p class="font-bold">₹{{ product.price }}</p>
+            {%else%}
+            <p class="font-bold">Out of Stock</p>
+            {%endif%}
         </div>
     </div>
 </body>

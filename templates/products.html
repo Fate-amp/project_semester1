@@ -13,7 +13,7 @@
   <body>
     {% include "components/header.html" %}
     <div class="min-h-screen flex flex-col">
-      <section class="py-12 md:py-16 bg-stone-50 px-20">
+      <section class="py-12 md:py-16 bg-amber-50 px-20">
         <div class="container-custom">
           <h1 class="text-3xl md:text-4xl font-serif font-semibold">
             Our Products
@@ -51,27 +51,47 @@
           </form>
           <!-- The sort by dropdown -->
           <form action="{{ url_for('get_products_page') }}" method="get">
-            <select
-              name="sort_by"
-              id=""
-              value="{{ request.args.get('sort_by') }}"
-              onchange="this.form.submit()"
-              class="p-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-amber-700"
-            >
-              <div class="mt-2">
-                <option value="all">
-                  featured
-                </option>
-                <option value="name_asc">
-                  Name A-Z
-                </option>
-                <option value="name_desc">Name Z-A</option>
-                <option value="price_asc">Price: Low to High</option>
-                <option value="price_desc">Price: High to Low</option>
-                <option value="popular">Most popular</option>
-              </div>
-            </select>
-          </form>
+  <input type="hidden" name="q" value="{{ request.args.get('q', '') }}">
+  <input type="hidden" name="category" value="{{ request.args.get('category', 'All') }}">
+  <input type="hidden" name="page" value="1">
+
+  <select
+    name="sort_by"
+    onchange="this.form.submit()"
+    class="p-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-amber-700"
+  >
+    <option value="all"
+      {% if request.args.get('sort_by') in [None, 'all'] %}selected{% endif %}>
+      featured
+    </option>
+
+    <option value="name_asc"
+      {% if request.args.get('sort_by') == 'name_asc' %}selected{% endif %}>
+      Name A-Z
+    </option>
+
+    <option value="name_desc"
+      {% if request.args.get('sort_by') == 'name_desc' %}selected{% endif %}>
+      Name Z-A
+    </option>
+
+    <option value="price_asc"
+      {% if request.args.get('sort_by') == 'price_asc' %}selected{% endif %}>
+      Price: Low to High
+    </option>
+
+    <option value="price_desc"
+      {% if request.args.get('sort_by') == 'price_desc' %}selected{% endif %}>
+      Price: High to Low
+    </option>
+
+    <option value="popular"
+      {% if request.args.get('sort_by') == 'popular' %}selected{% endif %}>
+      Most popular
+    </option>
+  </select>
+</form>
+
         </div>
         <!-- The filters -->
         <div class="w-full h-1/2 flex justify-start items-center gap-6 mt-4">
@@ -81,17 +101,23 @@
             method="get"
             class="border-r border-stone-200 inline-flex items-center gap-3 pr-3 mt-3"
           >
-            {% set categories = ['All', 'Skincare', 'Lips', 'Hair',
-            'Body','Eyes','Face'] %} {% for cat in categories %}
-            <button
-              type="submit"
-              name="category"
-              value="{{ cat }}"
-              class="text-sm border rounded-xl px-3 py-2 transition-all duration-300 {% if cat == current_category %} bg-amber-700/20 border-amber-700 text-amber-700 {% else %} border-stone-300 hover:bg-amber-700/10 {% endif %}"
-            >
-              {{ cat }}
-            </button>
-            {% endfor %}
+            {% set categories = ['All', 'Skincare', 'Lips', 'Hair','Body','Eyes','Face'] %}
+{% for cat in categories %}
+  <button
+    type="submit"
+    name="category"
+    value="{{ cat }}"
+    class="text-sm border rounded-xl px-3 py-2 transition-all duration-300
+    {% if cat == current_category %}
+      bg-amber-700 text-white border-amber-700
+    {% else %}
+      border-stone-300 text-stone-700 hover:bg-amber-700/10
+    {% endif %}"
+  >
+    {{ cat }}
+  </button>
+{% endfor %}
+
           </form>
         </div>
       </section>
@@ -104,7 +130,7 @@
             Page {{ current_page }} of {{ total_pages }}
           </p>
         </div>
-        {%for product in products%} {% include "components/product_card.html" %}
+        {%for product in products %} {% include "components/product_card.html" %}
         {% endfor %}
       </section>
       <!-- The pagination -->

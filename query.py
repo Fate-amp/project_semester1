@@ -77,8 +77,8 @@ from sqlalchemy import or_, asc, desc
 def get_products_paginated(page=1, search_key=None, category=None, sort=None):
     offset = (page - 1) * 20
 
-    # Start the query
-    query = session.query(Product)
+
+    query = (session.query(Product))
 
     # --- Search ---
     if search_key:
@@ -101,8 +101,8 @@ def get_products_paginated(page=1, search_key=None, category=None, sort=None):
         query = query.order_by(desc(Product.price))
     elif sort == "popular":
         query = query.order_by(desc(Product.rating))
-    elif sort == "name_desc":
-        query = query.order_by(desc(Product.product_name))
+    elif sort == "name_asc":
+        query = query.order_by(asc(Product.product_name))
     elif sort == "name_desc":
         query = query.order_by(desc(Product.product_name))
     else:  # default

@@ -46,7 +46,8 @@ def get_products_page():
         "products.html",
         products=products,
         current_page=page,
-        total_pages=total_pages
+        total_pages=total_pages,
+        current_category=category
     )
 
 
