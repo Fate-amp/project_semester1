@@ -6,10 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="w-[23%] h-[450px] flex flex-col border mb-6 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
+    <div class="w-[90%] sm:w-[40%] md:w-[30%] lg:w-[23%] h-[450px] flex flex-col border mb-6 rounded-md shadow-sm overflow-hidden hover:shadow-md transition-all duration-300">
         <div class="h-[60%] w-full">
             {% if product.image_url is not none %}
-            <img src={{product.image_url}} alt={{product.category}} class="w-full h-full object-contain hover:scale-105 hover:z-10 transition-all duration-300"/>
+            <img src={{product.image_url}} alt={{product.category}} class="w-full h-full object-cover hover:scale-105 hover:z-10 transition-all duration-300"/>
             {% else %}
             <img src="/static/images/hero-beauty.png" alt={{product.category}} class="w-full h-full object-contain hover:scale-105 transition-all duration-300"/>
             {% endif %}

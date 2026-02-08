@@ -4,6 +4,7 @@ import query
 from query import *
 import dashboard_query as dq
 
+
 app = Flask(__name__)
 
 
@@ -15,22 +16,25 @@ connection = query.get_connection()
 def index():
     return render_template("base.html")
 
-app.config["DEBUG"] = True
-app.config["PROPAGATE_EXCEPTIONS"] = True
-
 @app.route("/products")
 def get_products_page():
-    # --- Get query parameters ---
-    search_key = request.args.get("q", "")
+    print("ARGS:", dict(request.args))
+    print("STATE:", {
+    "q": search_key,
+    "category": category,
+    "sort": sort_by,
+    "page": page
+})
+
+    search_key = request.args.get("q", "").strip()
     category = request.args.get("category", "All")
-    sort_by = request.args.get("sort_by", None)
+    sort_by = request.args.get("sort_by", "all")
 
     try:
         page = int(request.args.get("page", 1))
     except (ValueError, TypeError):
         page = 1
 
-    # --- Fetch products ---
     products, total = get_products_paginated(
         page=page,
         search_key=search_key,
@@ -38,8 +42,7 @@ def get_products_page():
         sort=sort_by
     )
 
-    # --- Pagination safety ---
-    total_pages = ceil(total / 20) or 1
+    total_pages = max(1, ceil(total / 20))
     page = max(1, min(page, total_pages))
 
     return render_template(
@@ -47,8 +50,11 @@ def get_products_page():
         products=products,
         current_page=page,
         total_pages=total_pages,
-        current_category=category
+        current_category=category,
+        current_sort=sort_by,
+        current_search=search_key
     )
+
 
 
 @app.route("/dashboard")
