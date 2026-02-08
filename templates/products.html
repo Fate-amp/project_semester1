@@ -1,170 +1,120 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Products</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='output.css') }}"
-    />
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  </head>
-  <body>
-    {% include "components/header.html" %}
-    <div class="min-h-screen flex flex-col">
-      <section class="py-12 md:py-16 bg-amber-50 px-20">
-        <div class="container-custom">
-          <h1 class="text-3xl md:text-4xl font-serif font-semibold">
-            Our Products
-          </h1>
-          <p class="mt-2 max-w-xl">
-            Explore our collection of clean, transparent beauty products crafted
-            for every skin.
-          </p>
-        </div>
-      </section>
-      <!-- The search and filters section -->
-      <section
-        class="w-full min-h-32 px-20 py-4 bg-white/80 backdrop-blur-sm sticky top-0"
-      >
-        <div class="w-full h-1/2 flex justify-between">
-          <!-- The search bar-->
-          <form
-            method="get"
-            action="{{ url_for('get_products_page') }}"
-            class="flex items-center gap-2"
-          >
-            <input
-              type="text"
-              name="q"
-              value="{{ request.args.get('q', '') }}"
-              placeholder="Search products..."
-              class="border border-stone-300 rounded-lg w-96 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-amber-700 placeholder:text-stone-500 placeholder:text-sm"
-            />
-            <button
-              type="submit"
-              class="bg-amber-700/65 text-white rounded-lg px-4 py-2 flex items-center gap-2 hover:bg-amber-700/80 transition-colors"
-            >
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='output.css') }}" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+  {% include "components/header.html" %}
+  <div class="min-h-screen flex flex-col">
+
+    <section class="py-12 md:py-16 bg-stone-50 px-4 sm:px-6 md:px-20">
+      <div class="container-custom">
+        <h1 class="text-3xl md:text-4xl font-serif font-semibold">Our Products</h1>
+        <p class="mt-2 max-w-xl">
+          Explore our collection of clean, transparent beauty products crafted for every skin.
+        </p>
+      </div>
+    </section>
+
+    <!-- Master filter form -->
+    <form id="filtersForm" method="get" action="{{ url_for('get_products_page') }}" class="w-full">
+      <input type="hidden" name="page" value="1">
+      <input type="hidden" name="category" id="categoryInput" value="{{ current_category }}">
+
+      <!-- Search and sort section -->
+      <section class="w-full min-h-32 px-4 sm:px-6 md:px-20 py-4 bg-white/80 backdrop-blur-sm sticky top-0">
+        <div class="w-full flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+
+          <!-- Search bar -->
+          <div class="flex flex-row items-start sm:items-center gap-2 w-auto">
+            <input type="text" name="q" value="{{ current_search }}" placeholder="Search products..."
+              class="border border-stone-300 rounded-lg w-40 sm:w-96 px-4 py-2" />
+            <button type="submit"
+              class="bg-amber-700/65 text-white rounded-lg px-4 py-2 flex items-center gap-2 hover:bg-amber-700/80 transition-colors">
               <i class="ph ph-magnifying-glass"></i> Search
             </button>
-          </form>
-          <!-- The sort by dropdown -->
-          <form action="{{ url_for('get_products_page') }}" method="get">
-  <input type="hidden" name="q" value="{{ request.args.get('q', '') }}">
-  <input type="hidden" name="category" value="{{ request.args.get('category', 'All') }}">
-  <input type="hidden" name="page" value="1">
+          </div>
 
-  <select
-    name="sort_by"
-    onchange="this.form.submit()"
-    class="p-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-amber-700"
-  >
-    <option value="all"
-      {% if request.args.get('sort_by') in [None, 'all'] %}selected{% endif %}>
-      featured
-    </option>
-
-    <option value="name_asc"
-      {% if request.args.get('sort_by') == 'name_asc' %}selected{% endif %}>
-      Name A-Z
-    </option>
-
-    <option value="name_desc"
-      {% if request.args.get('sort_by') == 'name_desc' %}selected{% endif %}>
-      Name Z-A
-    </option>
-
-    <option value="price_asc"
-      {% if request.args.get('sort_by') == 'price_asc' %}selected{% endif %}>
-      Price: Low to High
-    </option>
-
-    <option value="price_desc"
-      {% if request.args.get('sort_by') == 'price_desc' %}selected{% endif %}>
-      Price: High to Low
-    </option>
-
-    <option value="popular"
-      {% if request.args.get('sort_by') == 'popular' %}selected{% endif %}>
-      Most popular
-    </option>
-  </select>
-</form>
+          <!-- Sort dropdown -->
+          <select name="sort_by" onchange="document.getElementById('filtersForm').submit()"
+            class="p-2 border border-stone-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-amber-700 w-36 lg:w-auto">
+            <option value="all" {% if current_sort in [None,'all'] %}selected{% endif %}>featured</option>
+            <option value="name_asc" {% if current_sort=='name_asc' %}selected{% endif %}>Name A-Z</option>
+            <option value="name_desc" {% if current_sort=='name_desc' %}selected{% endif %}>Name Z-A</option>
+            <option value="price_asc" {% if current_sort=='price_asc' %}selected{% endif %}>Price: Low to High</option>
+            <option value="price_desc" {% if current_sort=='price_desc' %}selected{% endif %}>Price: High to Low</option>
+            <option value="popular" {% if current_sort=='popular' %}selected{% endif %}>Most popular</option>
+          </select>
 
         </div>
-        <!-- The filters -->
+
+        <!-- Category buttons -->
         <div class="w-full h-1/2 flex justify-start items-center gap-6 mt-4">
-          <!-- The following form contains the categories up until the border line -->
-          <form
-            action="{{ url_for('get_products_page') }}"
-            method="get"
-            class="border-r border-stone-200 inline-flex items-center gap-3 pr-3 mt-3"
-          >
+          <div class="border-r-0 md:border-r border-stone-200 inline-flex flex-wrap items-center gap-3 pr-3 mt-3">
             {% set categories = ['All', 'Skincare', 'Lips', 'Hair','Body','Eyes','Face'] %}
-{% for cat in categories %}
-  <button
-    type="submit"
-    name="category"
-    value="{{ cat }}"
-    class="text-sm border rounded-xl px-3 py-2 transition-all duration-300
+            {% for cat in categories %}
+            <button type="button" onclick="
+      document.getElementById('categoryInput').value='{{ cat }}';
+      document.getElementsByName('q')[0].value = document.getElementsByName('q')[0].value;
+      document.getElementById('filtersForm').submit();
+    " class="text-sm border rounded-xl px-3 py-2 transition-all duration-300
     {% if cat == current_category %}
       bg-amber-700 text-white border-amber-700
     {% else %}
       border-stone-300 text-stone-700 hover:bg-amber-700/10
-    {% endif %}"
-  >
-    {{ cat }}
-  </button>
-{% endfor %}
+    {% endif %}">
+              {{ cat }}
+            </button>
+            {% endfor %}
+          </div>
 
-          </form>
         </div>
       </section>
-      <!-- The products -->
-      <section
-        class="flex flex-row flex-wrap px-20 justify-between py-6 border-t border-stone-200"
-      >
-        <div class="flex justify-start w-full my-6">
-          <p class="text-sm text-stone-600">
-            Page {{ current_page }} of {{ total_pages }}
-          </p>
-        </div>
-        {%for product in products %} {% include "components/product_card.html" %}
-        {% endfor %}
-      </section>
-      <!-- The pagination -->
-      <div class="w-full h-24 mt-4 flex justify-center items-center space-x-4">
-        {% if current_page and current_page > 1 %}
-        <a
-          href="{{ url_for('get_products_page', page=current_page-1) }}"
-          class="border border-stone-300 rounded-lg p-3 flex items-center gap-2"
-        >
-          <i class="ph ph-caret-left"></i>
-        </a>
-        {% else %}
-        <span
-          class="border border-stone-300 rounded-lg p-3 flex items-center gap-2 opacity-40 cursor-not-allowed"
-        >
-          <i class="ph ph-caret-left"></i>
-        </span>
-        {% endif %} {% if current_page and total_pages and current_page <
-        total_pages %}
-        <a
-          href="{{ url_for('get_products_page', page=current_page+1) }}"
-          class="border border-stone-300 rounded-lg p-3 flex items-center gap-2"
-        >
-          <i class="ph ph-caret-right"></i>
-        </a>
-        {% else %}
-        <span
-          class="border border-stone-300 rounded-lg p-3 flex items-center gap-2 opacity-40 cursor-not-allowed"
-        >
-          <i class="ph ph-caret-right"></i>
-        </span>
-        {% endif %}
+    </form>
+
+    <!-- Products section -->
+    <section class="px-4 sm:px-6 md:px-20 justify-between py-6 border-t border-stone-200">
+      <div class="flex justify-start w-full my-6">
+        <p class="text-sm text-stone-600">Page {{ current_page }} of {{ total_pages }}</p>
       </div>
+      <div class="flex flex-wrap justify-start gap-6">
+        {% for product in products %} {% include "components/product_card.html" %} {% endfor %}
+      </div>
+    </section>
+
+    <!-- Pagination -->
+    <div class="w-full h-24 mt-4 flex justify-center items-center space-x-4">
+      {% if current_page and current_page > 1 %}
+      <a href="{{ url_for('get_products_page', page=current_page-1, category=current_category, sort_by=current_sort, q=search_key) }}"
+        class="border border-stone-300 rounded-lg p-3 flex items-center gap-2">
+        <i class="ph ph-caret-left"></i>
+      </a>
+      {% else %}
+      <span class="border border-stone-300 rounded-lg p-3 flex items-center gap-2 opacity-40 cursor-not-allowed">
+        <i class="ph ph-caret-left"></i>
+      </span>
+      {% endif %}
+
+      {% if current_page and total_pages and current_page < total_pages %}
+      <a href="{{ url_for('get_products_page', page=current_page+1, category=current_category, sort_by=current_sort, q=search_key) }}"
+        class="border border-stone-300 rounded-lg p-3 flex items-center gap-2">
+        <i class="ph ph-caret-right"></i>
+      </a>
+      {% else %}
+      <span class="border border-stone-300 rounded-lg p-3 flex items-center gap-2 opacity-40 cursor-not-allowed">
+        <i class="ph ph-caret-right"></i>
+      </span>
+      {% endif %}
     </div>
-    {% include "components/footer.html" %}
-  </body>
+
+  </div>
+  {% include "components/footer.html" %}
+</body>
+
 </html>

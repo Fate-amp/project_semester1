@@ -10,18 +10,18 @@
       class="sticky top-0 z-50 w-full border-b border-stone-200 bg-white/80 backdrop-blur-md"
     >
       <div class="container mx-auto px-4">
-        <div class="flex h-16 items-center gap-16">
-          <div class="w-1/3">
+        <div class="flex h-16 items-center gap-3 sm:gap-16">
+          <div class="w-auto sm:w-1/3">
               <a href="{{ url_for('index') }}" class="flex items-center gap-2">
                 <span
-                  class="font-serif text-2xl font-semibold tracking-tight text-stone-900"
+                  class="font-serif text-xl sm:text-2xl font-semibold tracking-tight text-stone-900"
                 >
                   Lumière
                 </span>
               
                   </a>
           </div>
-              <div class="w-2/3">
+              <div class="w-auto sm:w-2/3">
                 {% set nav_links = [
                 {'name': 'Home', 'endpoint': 'index'},
                 {'name': 'Products', 'endpoint': 'get_products_page'},
@@ -30,7 +30,7 @@
                 {% for link in nav_links %}
               <a
                 href="{{ url_for(link.endpoint) }}"
-                class="text-sm font-medium mx-4 hover:text-amber-700 transition-all duration-300 {% if request.endpoint == link.endpoint %}text-stone-900 font-semibold{% else %}text-stone-600{% endif %}"
+                class="text-xs sm:text-sm font-medium mx-2 sm:mx-4 hover:text-amber-700 transition-all duration-300 {% if request.endpoint == link.endpoint %}text-stone-900 font-semibold{% else %}text-stone-600{% endif %}"
               >
                 {{ link.name }}
               </a>
