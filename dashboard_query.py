@@ -2,19 +2,6 @@ import query
 
 # utility script for specified queries for dashboard. call functions with _engine.Connection SQLAlchemy object
 
-'''
-ideas: 
-
-charts:
-price range histogram - done
-rating by brand - done
-countries review ratio - done
-
-statistics:
-n best brands rating wise - done
-popular brands and categories / no of products - by country
-'''
-
 def list_to_float(li):
     '''
     Transform a list of decimals into list of floats. We need this because for some values in our database,
