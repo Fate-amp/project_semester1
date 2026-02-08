@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
+from math import ceil
 import query
+from query import *
 import dashboard_query as dq
 app = Flask(__name__)
 
@@ -7,22 +9,53 @@ app = Flask(__name__)
 # create sqlalchemy connection object for later use
 connection = query.get_connection()
 
+
 @app.route("/")
 def index():
     return render_template("base.html")
 
+app.config["DEBUG"] = True
+app.config["PROPAGATE_EXCEPTIONS"] = True
 
 @app.route("/products")
 def get_products_page():
-    products=query.get_all_unique_products(connection)
-    return render_template("products.html", products=products)
+    # --- Get query parameters ---
+    search_key = request.args.get("q", "")
+    category = request.args.get("category", "All")
+    sort_by = request.args.get("sort_by", None)
+
+    try:
+        page = int(request.args.get("page", 1))
+    except (ValueError, TypeError):
+        page = 1
+
+    # --- Fetch products ---
+    products, total = get_products_paginated(
+        page=page,
+        search_key=search_key,
+        category=category,
+        sort=sort_by
+    )
+
+    # --- Pagination safety ---
+    total_pages = ceil(total / 20) or 1
+    page = max(1, min(page, total_pages))
+
+    return render_template(
+        "products.html",
+        products=products,
+        current_page=page,
+        total_pages=total_pages
+    )
 
 
 @app.route("/dashboard")
 def get_dashboard_page():
     # values for price ranges histogram
     ranges = ["10 - 500", "500 - 2500", "2500 - 10000", "10000+"]
-    dash_price_ranges = dq.price_hist(connection, [[10,500], [500,2500], [2500, 10000], [10000]])
+    dash_price_ranges = dq.price_hist(
+        connection, [[10, 500], [500, 2500], [2500, 10000], [10000]]
+    )
 
     # values for rating by brand chart
     brands_ratings = dq.rating_by_brand(connection)
@@ -38,8 +71,9 @@ def get_dashboard_page():
     # values for statistics by country
     india_stats = dq.country_stats(connection, "India", 5)
     usa_stats = dq.country_stats(connection, "USA", 5)
-    
+
     return render_template("dashboard.html")
+
 
 # The following lines are there so that flask reboots after
 # frontend updates. To be deleted on production! Maya

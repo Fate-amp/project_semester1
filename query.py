@@ -1,5 +1,8 @@
 from sqlalchemy import URL, create_engine, text
 import tomllib
+from sqlalchemy.orm import sessionmaker
+from product import Product
+from sqlalchemy import or_, asc, desc,func
 
 # get server configuration from config.toml and load it
 with open("config.toml", "rb") as f:
@@ -59,12 +62,56 @@ def just_execute(connection, query):
     rows = cursor.all() #function works with any amount of columns in the output table
     return list(map(list, zip(*rows))) 
 
-# Edit later:
-# To get all unique products
-def get_all_unique_products(connection):
-    sql = f"""
-    SELECT *
-    FROM {table}
-    """
-    result = connection.execute(text(sql))
-    return result.mappings().all()
+
+# Following creates an engine
+def get_engine(url_object=url_object):
+    return create_engine(url_object)
+engine = get_engine()
+# The following lines are to create a session
+Session=sessionmaker(bind=engine)
+session=Session()
+# The following function will apply filtering, sorting and searching and paginates the result
+
+from sqlalchemy import or_, asc, desc
+
+def get_products_paginated(page=1, search_key=None, category=None, sort=None):
+    offset = (page - 1) * 20
+
+    # Start the query
+    query = session.query(Product)
+
+    # --- Search ---
+    if search_key:
+        pattern = f"%{search_key}%"
+        query = query.filter(
+            or_(
+                Product.product_name.ilike(pattern),
+                Product.brand.ilike(pattern)
+            )
+        )
+
+    # --- Category filter ---
+    if category and category != "All":
+        query = query.filter(Product.category == category)
+
+    # --- Sorting ---
+    if sort == "price_asc":
+        query = query.order_by(asc(Product.price))
+    elif sort == "price_desc":
+        query = query.order_by(desc(Product.price))
+    elif sort == "popular":
+        query = query.order_by(desc(Product.rating))
+    elif sort == "name_desc":
+        query = query.order_by(desc(Product.product_name))
+    elif sort == "name_desc":
+        query = query.order_by(desc(Product.product_name))
+    else:  # default
+        query = query
+
+    # --- Count total for pagination ---
+    total = query.count()  # SQLAlchemy handles subquery quoting correctly
+
+    # --- Pagination ---
+    products = query.offset(offset).limit(20).all()  # per_page is always 20
+
+    return products, total

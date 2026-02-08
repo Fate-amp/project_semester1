@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Fate-amp/project_semester1#readme",
   "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "tailwindcss": "^3.4.19"
   }
 }
