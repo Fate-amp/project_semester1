@@ -12,13 +12,13 @@
     <script src="{{ url_for('static', filename='chartjs/chart.umd.js') }}"></script>
 
 </head>
-<body class="min-h-screen" style="background-color: #FAF7F5;">
+<body class="bg-gray-50 min-h-screen">
     <!-- Navigation and Header -->
     {% include "components/header.html" %}
-    <header class="shadow-sm border-b" style="background-color: #FDFAF7; border-color: #E8D5C4;">
+    <header class="bg-stone-50 shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <h1 class="text-3xl font-bold" style="color: #3D2817;">Analytics Dashboard</h1>
-            <p class="mt-1 text-sm" style="color: #6B5544;">Product insights and performance metrics</p>
+            <h1 class="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+            <p class="mt-1 text-sm text-gray-500">Product insights and performance metrics</p>
         </div>
     </header>
 
@@ -29,10 +29,10 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             
             <!-- Price Histogram Chart -->
-            <div class="bg-white rounded-lg shadow-md p-6" style="background-color: #FDFAF7;">
+            <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold" style="color: #3D2817;">Price Distribution</h2>
-                    <p class="text-sm mt-1" style="color: #6B5544;">Products by price range</p>
+                    <h2 class="text-xl font-semibold text-gray-800">Price Distribution</h2>
+                    <p class="text-sm text-gray-500 mt-1">Products by price range</p>
                 </div>
                 <div class="relative h-80">
                     <canvas id="price_hist"></canvas>
@@ -40,10 +40,10 @@
             </div>
 
             <!-- Brand Ratings Chart -->
-            <div class="bg-white rounded-lg shadow-md p-6" style="background-color: #FDFAF7;">
+            <div class="bg-white rounded-lg shadow-md p-6">
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold" style="color: #3D2817;">Brand Performance</h2>
-                    <p class="text-sm mt-1" style="color: #6B5544;">Rating distribution across brands</p>
+                    <h2 class="text-xl font-semibold text-gray-800">Brand Performance</h2>
+                    <p class="text-sm text-gray-500 mt-1">Rating distribution across brands</p>
                 </div>
                 <div class="relative h-80">
                     <canvas id="brand_ratings"></canvas>
@@ -53,37 +53,37 @@
         </div>
 
         <!-- Top Brands Table -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8" style="background-color: #FDFAF7;">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <div class="mb-4">
-                <h2 class="text-xl font-semibold" style="color: #3D2817;">Top Performing Brands</h2>
-                <p class="text-sm mt-1" style="color: #6B5544;">Based on rating score and review volume</p>
+                <h2 class="text-xl font-semibold text-gray-800">Top Performing Brands</h2>
+                <p class="text-sm text-gray-500 mt-1">Based on rating score and review volume</p>
             </div>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y" style="border-color: #E8D5C4;">
-                    <thead style="background-color: #F5F0EC;">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: #6B5544;">
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Rank
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: #6B5544;">
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Brand
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: #6B5544;">
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Score
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y" style="background-color: #FDFAF7; border-color: #E8D5C4;">
+                    <tbody class="bg-white divide-y divide-gray-200">
                         {% for brand, rating in best_brands %}
-                        <tr class="transition-colors hover:bg-opacity-50" style="--hover-bg: #F5F0EC;">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium" style="color: #3D2817;">
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 {{ loop.index }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm" style="color: #3D2817;">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 {{ brand }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background-color: #FEF3E2; color: #92400E;">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                     {{ rating }}
                                 </span>
                             </td>
@@ -98,10 +98,10 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             
             <!-- Review Ratio Doughnut Chart -->
-            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-1" style="background-color: #FDFAF7;">
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-1">
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold" style="color: #3D2817;">Review Quality</h2>
-                    <p class="text-sm mt-1" style="color: #6B5544;">Good reviews by country</p>
+                    <h2 class="text-xl font-semibold text-gray-800">Review Quality</h2>
+                    <p class="text-sm text-gray-500 mt-1">Good reviews by country</p>
                 </div>
                 <div class="relative h-64">
                     <canvas id="review_ratio"></canvas>
@@ -109,59 +109,59 @@
             </div>
 
             <!-- Country Statistics Table -->
-            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2" style="background-color: #FDFAF7;">
+            <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
                 <div class="mb-4">
-                    <h2 class="text-xl font-semibold" style="color: #3D2817;">Country Statistics</h2>
-                    <p class="text-sm mt-1" style="color: #6B5544;">Popular brands and categories by region</p>
+                    <h2 class="text-xl font-semibold text-gray-800">Country Statistics</h2>
+                    <p class="text-sm text-gray-500 mt-1">Popular brands and categories by region</p>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y" style="border-color: #E8D5C4;">
-                        <thead style="background-color: #F5F0EC;">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: #6B5544;">
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Country
                                 </th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: #6B5544;">
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Top Brands
                                 </th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: #6B5544;">
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Top Categories
                                 </th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: #6B5544;">
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Products
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y" style="background-color: #FDFAF7; border-color: #E8D5C4;">
+                        <tbody class="bg-white divide-y divide-gray-200">
                             {% for country, top_brands, top_subcategories, product_count in country_info %}
-                            <tr class="transition-colors">
+                            <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-4 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="text-sm font-medium" style="color: #3D2817;">
+                                        <div class="text-sm font-medium text-gray-900">
                                             {{ country }}
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-4 py-4">
-                                    <div class="text-sm" style="color: #3D2817;">
+                                    <div class="text-sm text-gray-900">
                                         {% for top_brand in top_brands %}
-                                        <span class="inline-block text-xs px-2 py-1 rounded mr-1 mb-1" style="background-color: #F5E6D3; color: #78350F;">
+                                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded mr-1 mb-1">
                                             {{ top_brand }}
                                         </span>
                                         {% endfor %}
                                     </div>
                                 </td>
                                 <td class="px-4 py-4">
-                                    <div class="text-sm" style="color: #3D2817;">
+                                    <div class="text-sm text-gray-900">
                                         {% for top_subcategory in top_subcategories %}
-                                        <span class="inline-block text-xs px-2 py-1 rounded mr-1 mb-1" style="background-color: #E8D5C4; color: #6B3410;">
+                                        <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded mr-1 mb-1">
                                             {{ top_subcategory }}
                                         </span>
                                         {% endfor %}
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 whitespace-nowrap">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style="background-color: #F5F0EC; color: #6B5544;">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                                         {{ product_count }}
                                     </span>
                                 </td>
@@ -178,9 +178,9 @@
 
     <!-- Chart.js Scripts -->
     <script>
-        // Configure Chart.js defaults with warm colors
+        // Configure Chart.js defaults
         Chart.defaults.font.family = "'Inter', 'system-ui', 'sans-serif'";
-        Chart.defaults.color = '#6B5544';
+        Chart.defaults.color = '#6B7280';
         
         // Price Histogram Chart
         const canv1 = document.getElementById("price_hist");
@@ -194,11 +194,11 @@
                 datasets: [{
                     label: 'Product count',
                     data: canv1_values,
-                    backgroundColor: 'rgba(180, 83, 9, 0.85)',
-                    borderColor: 'rgba(140, 63, 5, 1)',
+                    backgroundColor: 'rgba(180, 83, 9, 0.8)',
+                    borderColor: 'rgba(180, 83, 9, 1)',
                     borderWidth: 1,
                     borderRadius: 6,
-                    borderSkipped: false
+                    borderSkipped: false,
                 }]
             },
             options: {
@@ -209,7 +209,7 @@
                         display: false
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(61, 40, 23, 0.95)',
+                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
                         padding: 12,
                         borderRadius: 8,
                         titleFont: {
@@ -224,10 +224,9 @@
                     y: {
                         beginAtZero: true,
                         grid: {
-                            color: 'rgba(232, 213, 196, 0.5)'
+                            color: 'rgba(229, 231, 235, 0.8)'
                         },
                         ticks: {
-                            color: '#6B5544',
                             font: {
                                 size: 12
                             }
@@ -238,7 +237,6 @@
                             display: false
                         },
                         ticks: {
-                            color: '#6B5544',
                             font: {
                                 size: 12
                             }
@@ -260,15 +258,15 @@
                 datasets: [{
                     label: 'Brand rating',
                     data: canv2_values,
-                    borderColor: 'rgba(160, 82, 45, 1)',
-                    backgroundColor: 'rgba(212, 167, 138, 0.2)',
+                    borderColor: 'rgba(139, 92, 246, 1)',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
                     borderWidth: 2,
                     fill: true,
                     tension: 0.4,
                     pointRadius: 3,
                     pointHoverRadius: 5,
-                    pointBackgroundColor: 'rgba(160, 82, 45, 1)',
-                    pointBorderColor: '#FDFAF7',
+                    pointBackgroundColor: 'rgba(139, 92, 246, 1)',
+                    pointBorderColor: '#fff',
                     pointBorderWidth: 2
                 }]
             },
@@ -280,7 +278,7 @@
                         display: false
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(61, 40, 23, 0.95)',
+                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
                         padding: 12,
                         borderRadius: 8,
                         titleFont: {
@@ -300,10 +298,9 @@
                     y: {
                         beginAtZero: true,
                         grid: {
-                            color: 'rgba(232, 213, 196, 0.5)'
+                            color: 'rgba(229, 231, 235, 0.8)'
                         },
                         ticks: {
-                            color: '#6B5544',
                             font: {
                                 size: 12
                             }
@@ -319,7 +316,7 @@
             }
         });
 
-        // Review Ratio Doughnut Chart - Skin tone gradient
+        // Review Ratio Doughnut Chart
         const canv3 = document.getElementById("review_ratio");
         const canv3_labels = {{ canv3_x|safe }};
         const canv3_values = {{ canv3_y|safe }};
@@ -331,13 +328,13 @@
                 datasets: [{
                     data: canv3_values,
                     backgroundColor: [
-                        'rgba(245, 230, 211, 0.9)',
-                        'rgba(212, 167, 138, 0.9)',
-                        'rgba(180, 83, 9, 0.9)',
-                        'rgba(160, 82, 45, 0.9)',
-                        'rgba(107, 52, 16, 0.9)'
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(236, 72, 153, 0.8)',
+                        'rgba(34, 197, 94, 0.8)',
+                        'rgba(251, 146, 60, 0.8)',
+                        'rgba(168, 85, 247, 0.8)'
                     ],
-                    borderColor: '#FDFAF7',
+                    borderColor: '#fff',
                     borderWidth: 3,
                     hoverOffset: 8
                 }]
@@ -350,7 +347,6 @@
                         position: 'bottom',
                         labels: {
                             padding: 15,
-                            color: '#6B5544',
                             font: {
                                 size: 12
                             },
@@ -359,7 +355,7 @@
                         }
                     },
                     tooltip: {
-                        backgroundColor: 'rgba(61, 40, 23, 0.95)',
+                        backgroundColor: 'rgba(17, 24, 39, 0.95)',
                         padding: 12,
                         borderRadius: 8,
                         titleFont: {
