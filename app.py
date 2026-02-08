@@ -3,6 +3,7 @@ from math import ceil
 import query
 from query import *
 import dashboard_query as dq
+
 app = Flask(__name__)
 
 
@@ -52,27 +53,38 @@ def get_products_page():
 @app.route("/dashboard")
 def get_dashboard_page():
     # values for price ranges histogram
-    ranges = ["10 - 500", "500 - 2500", "2500 - 10000", "10000+"]
+    ranges = ["10 - 500", "500 - 2000", "2000 - 5000", "5000 - 10000", "10000+"]
     dash_price_ranges = dq.price_hist(
-        connection, [[10, 500], [500, 2500], [2500, 10000], [10000]]
+        connection, [[10, 500], [500, 2000], [2000, 5000], [5000, 10000], [10000]]
     )
 
     # values for rating by brand chart
     brands_ratings = dq.rating_by_brand(connection)
-    dash_rating_brands, dash_rating_scores = brands_ratings[0], brands_ratings[1]
 
     # values for good reviews ratio per country
     review_ratios = dq.reviews_by_country(connection, 3.5)
-    dash_ratio_countries, dash_ratio_ratios = review_ratios[0], review_ratios[1]
 
     # values for best brands statistics
-    dash_best_brands = dq.best_brands(dash_rating_brands, dash_rating_scores, 5)
+    top_brands = dq.best_brands(brands_ratings[0], brands_ratings[1], 5)
 
     # values for statistics by country
-    india_stats = dq.country_stats(connection, "India", 5)
-    usa_stats = dq.country_stats(connection, "USA", 5)
+    countries = dq.country_list(connection)
+    country_stats = []
+    for country in countries:
+        country_stats.append([country] + dq.country_stats(connection, country, 5))
 
-    return render_template("dashboard.html")
+    return render_template(
+        "dashboard.html",
+        canv1_x=ranges,
+        canv1_y=dash_price_ranges,
+        canv2_x=brands_ratings[0],
+        canv2_y=brands_ratings[1],
+        canv3_x=review_ratios[0],
+        canv3_y=review_ratios[1],
+        best_brands=top_brands,
+        country_info=country_stats
+    )
+
 
 
 # The following lines are there so that flask reboots after
