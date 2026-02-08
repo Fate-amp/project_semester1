@@ -20,7 +20,7 @@ app.config["PROPAGATE_EXCEPTIONS"] = True
 
 @app.route("/products")
 def get_products_page():
-    # --- Get query parameters ---
+    # get query parameters
     search_key = request.args.get("q", "")
     category = request.args.get("category", "All")
     sort_by = request.args.get("sort_by", None)
@@ -30,7 +30,7 @@ def get_products_page():
     except (ValueError, TypeError):
         page = 1
 
-    # --- Fetch products ---
+    # fetch products
     products, total = get_products_paginated(
         page=page,
         search_key=search_key,
@@ -38,7 +38,7 @@ def get_products_page():
         sort=sort_by
     )
 
-    # --- Pagination safety ---
+    # pagination safety
     total_pages = ceil(total / 20) or 1
     page = max(1, min(page, total_pages))
 
