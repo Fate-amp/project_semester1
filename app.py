@@ -18,14 +18,6 @@ def index():
 
 @app.route("/products")
 def get_products_page():
-    print("ARGS:", dict(request.args))
-    print("STATE:", {
-    "q": search_key,
-    "category": category,
-    "sort": sort_by,
-    "page": page
-})
-
     search_key = request.args.get("q", "").strip()
     category = request.args.get("category", "All")
     sort_by = request.args.get("sort_by", "all")

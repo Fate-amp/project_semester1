@@ -91,7 +91,7 @@
     <!-- Pagination -->
     <div class="w-full h-24 mt-4 flex justify-center items-center space-x-4">
       {% if current_page and current_page > 1 %}
-      <a href="{{ url_for('get_products_page', page=current_page-1, category=current_category, sort_by=current_sort, q=search_key) }}"
+      <a href="{{ url_for('get_products_page', page=current_page-1, category=current_category, sort_by=current_sort, q=current_search) }}"
         class="border border-stone-300 rounded-lg p-3 flex items-center gap-2">
         <i class="ph ph-caret-left"></i>
       </a>
@@ -102,7 +102,7 @@
       {% endif %}
 
       {% if current_page and total_pages and current_page < total_pages %}
-      <a href="{{ url_for('get_products_page', page=current_page+1, category=current_category, sort_by=current_sort, q=search_key) }}"
+      <a href="{{ url_for('get_products_page', page=current_page+1, category=current_category, sort_by=current_sort, q=current_search) }}"
         class="border border-stone-300 rounded-lg p-3 flex items-center gap-2">
         <i class="ph ph-caret-right"></i>
       </a>
